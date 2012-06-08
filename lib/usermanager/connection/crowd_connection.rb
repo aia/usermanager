@@ -81,7 +81,7 @@ module UserManager
     def add_user_to_groups(user, groups)
       groups.each do |group|
         template = {
-           'name' => "groupname"
+           'name' => "#{group}"
         }
         
         post_response(
