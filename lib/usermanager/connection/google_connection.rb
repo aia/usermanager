@@ -129,7 +129,11 @@ module UserManager
     #
     # @return [Hash] Returns a hash of user parameters
     def get_user(user)
-      ret = @ds.retrieve_user(user['username'])
+      begin
+        ret = @ds.retrieve_user(user['username'])
+      rescue Exception => e
+        return nil
+      end
       
       return nil if ret.nil?
       
@@ -140,7 +144,6 @@ module UserManager
         :active => ret.suspended == "true" ? false : true,
         :admin => ret.admin == "true" ? true : false,
       }
-      
       
       return user
     end
