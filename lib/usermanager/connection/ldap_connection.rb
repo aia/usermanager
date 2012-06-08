@@ -60,8 +60,8 @@ module UserManager
           :username => user.uid.first,
           :uid => uid,
           :gid => gid,
-          :first => user.sn.first,
-          :last => user.givenname.first
+          :first => user.givenname.first,
+          :last => user.sn.first
         }
       end
       
@@ -244,8 +244,8 @@ module UserManager
         :username => res[:values].first.uid.first,
         :uid => res[:values].first.uidnumber.first,
         :gid => res[:values].first.gidnumber.first,
-        :first => res[:values].first.sn.first,
-        :last => res[:values].first.givenname.first
+        :first => res[:values].first.givenname.first,
+        :last => res[:values].first.sn.first
       }
       
       return user
