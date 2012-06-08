@@ -35,7 +35,8 @@ module UserManager
           :username => user.username,
           :first => user.given_name,
           :last => user.family_name,
-          :active => user.suspended == "true" ? false : true
+          :active => user.suspended == "true" ? false : true,
+          :admin => user.admin == "true" ? true : false,
         }
       end
       
