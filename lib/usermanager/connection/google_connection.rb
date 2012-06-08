@@ -108,7 +108,18 @@ module UserManager
     #
     # @return [Array] Returns an array of groups a user is a member of
     def get_user_groups(user)
-      return @ds.retrieve_groups(user)
+      log("User email information unavailable") if user['email'].nil?
+      
+      ret = @ds.retrieve_groups(user['email'])
+      
+      return nil if ret.nil?
+      
+      groups = []
+      ret.each do |group|
+        groups << group.group_id
+      end
+      
+      return groups
     end
     
     # Get Google Apps parameters of a user
@@ -117,7 +128,20 @@ module UserManager
     #
     # @return [Hash] Returns a hash of user parameters
     def get_user(user)
-      return @ds.retrieve_user(user['username'])
+      ret = @ds.retrieve_user(user['username'])
+      
+      return nil if ret.nil?
+      
+      user = {
+        :username => ret.username,
+        :first => ret.given_name,
+        :last => ret.family_name,
+        :active => ret.suspended == "true" ? false : true,
+        :admin => ret.admin == "true" ? true : false,
+      }
+      
+      
+      return user
     end
     
     # Check if a user exists in Google Apps
