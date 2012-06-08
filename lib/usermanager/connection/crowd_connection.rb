@@ -17,7 +17,7 @@ module UserManager
     end
     
     def get_users
-      ret = get_response("/usermanagement/1/search.json?entity-type=user")
+      ret = get_response("/usermanagement/1/search.json?entity-type=user&expand=user")
       
       return nil if ret[:values].nil?
       
@@ -25,7 +25,13 @@ module UserManager
       
       users = []
       ret['users'].each do |user|
-        users << user['name']
+        users << {
+          :username => user['name'],
+          :first => user['first-name'],
+          :last => user['last-name'],
+          :email => user['email'],
+          :active => user['active']
+        }
       end
       
       return users
