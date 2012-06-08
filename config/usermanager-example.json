@@ -1,0 +1,64 @@
+{
+  "crowd":{
+    "host":"crowd.hostname",
+    "username":"adminaccount",
+    "password":"adminpassword"
+  },
+  "google":{
+    "username":"admin@yourdomain",
+    "password":"adminpassword"
+  },
+  "ldap":{
+    "host":"ldap.hostname",
+    "port":389,
+    "base":"dc=yourdomain,dc=net",
+    "basedn": "ou=people,dc=yourdomain,dc=net",
+    "userdn": "ou=people,dc=yourdomain,dc=net",
+    "groupdn": "ou=groups,dc=yourdomain,dc=net",
+    "auth":{
+      "method":"simple",
+      "username":"cn=admin,dc=yourdomain,dc=net",
+      "password":"adminpassword"
+    },
+    "templates":{
+      "user":{
+        "dn":"cn=<%= params[:first] %> <%= params[:last] %>,ou=people,dc=yourdomain,dc=net",
+        "attributes":{
+          "uid":"<%= params[:username] %>",
+          "uidnumber": "<%= params[:uid] %>",
+          "gidnumber":"yourdefaultgroup",
+          "gecos":"<%= params[:first] %> <%= params[:last] %>",
+          "cn":"<%= params[:first] %> <%= params[:last] %>",
+          "sn":"<%= params[:first] %>",
+          "givenname":"<%= params[:last] %>",
+          "homedirectory":"/home/<%= params[:username] %>",
+          "loginshell":"/bin/bash",
+          "preferredlanguage":"en_US",
+          "userpassword":"<%= params[:passwd] %>",
+          "objectclass":[
+            "top",
+            "person",
+            "organizationalPerson",
+            "inetOrgPerson",
+            "gosaAccount",
+            "posixAccount",
+            "shadowAccount"
+          ],
+          "shadowlastchange":"15358",
+          "sambalmpassword":"<%= params[:lmpasswd] %>",
+          "sambantpassword":"<%= params[:ntpasswd] %>",
+          "sambapwdlastset":"<%= params[:time] %>",
+          "sambabadpasswordcount":"0",
+          "sambabadpasswordtime":"0"
+        }
+      },
+      "group":{
+        "dn":"cn=<%= params[:groupname] %>,ou=groups,dc=yourdomain,dc=net",
+        "ops":[
+          ["add", "memberUid", ["<%= params[:username] %>"]],
+          ["add", "member", ["cn=<%= params[:first] %> <%= params[:last] %>,ou=people,dc=yourdomain,dc=net"]]
+        ]
+      }
+    }
+  }
+}
