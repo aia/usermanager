@@ -103,8 +103,8 @@ module UserManager
     
     # Get groups a user belongs to
     # 
-    # @params [Hash] user User parameters - Firstname, Lastname, Username etc
-    # @params [Array] groups
+    # @param [Hash] user User parameters - Firstname, Lastname, Username etc
+    # @param [Array] groups
     #
     # @return [Array] Returns an array of groups a user is a member of
     def get_user_groups(user)
@@ -113,7 +113,7 @@ module UserManager
     
     # Get Google Apps parameters of a user
     # 
-    # @params [Hash] user User parameters - Firstname, Lastname, Username etc
+    # @param [Hash] user User parameters - Firstname, Lastname, Username etc
     #
     # @return [Hash] Returns a hash of user parameters
     def get_user(user)
@@ -122,7 +122,7 @@ module UserManager
     
     # Check if a user exists in Google Apps
     # 
-    # @params [Hash] user User parameters - Firstname, Lastname, Username etc
+    # @param [Hash] user User parameters - Firstname, Lastname, Username etc
     #
     # @return [Boolean] Returns true if user exists in LDAP and false otherwise
     def user_exists?(user)
@@ -131,7 +131,7 @@ module UserManager
     
     # Check if a user is a member of a group
     # 
-    # @params [Hash] user User parameters - Firstname, Lastname, Username etc
+    # @param [Hash] user User parameters - Firstname, Lastname, Username etc
     #
     # @return [Hash] Returns true if user is a member of a group and false otherwise
     def user_in_group?(user, group)
