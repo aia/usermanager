@@ -287,10 +287,12 @@ module UserManager
     # @param [String] password Plain text password to be hashed
     # 
     # @return [String] Returns an MD5 password hash formatted for LDAP
-    def crypt3(password)
+    def crypt3(password, salt = nil)
       characters = [ ("A" .. "Z").to_a, ("a" .. "z").to_a, (0 .. 9).to_a, ".", "/" ].flatten
-      salt = ""
-      1.upto(8) { |index| salt = [salt, characters[rand(characters.length)].to_s].join }
+      if salt.nil?
+        salt = ""
+        1.upto(8) { |index| salt = [salt, characters[rand(characters.length)].to_s].join }
+      end
       encrypt = UnixCrypt::MD5.build(password, salt)
       return ["{CRYPT}", encrypt].join
     end
@@ -350,7 +352,7 @@ module UserManager
       begin
         timeout_status = Timeout::timeout(60) do
           @ds.search(:base => base, :filter => filter, :attributes => attributes) do |entry|
-            if (entry[:cn] != [])
+            if ((!entry.nil?) && (entry[:cn] != []))
               rows << entry
             end 
           end
@@ -437,7 +439,8 @@ module UserManager
     # @return [Hash] Returns a hash containing the result of the modify operation
     def modify(requestor, dn, ops)
       ops.each do |op|
-        log("#{requestor[:name]} #{requestor[:ip]} operation #{op[0]} #{op[1]} \"#{op[2].join(', ')}\" for #{dn}")
+        #pp ["op", op]
+        #log("#{requestor[:name]} #{requestor[:ip]} operation #{op[0]} #{op[1]} \"#{op[2].join(', ')}\" for #{dn}")
       end
       ret = {
         :status => 1,
