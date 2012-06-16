@@ -148,6 +148,23 @@ module UserManager
       return user
     end
     
+    def get_group_users(group)
+      begin
+        ret = @ds.retrieve_all_members(group)
+      rescue Exception => e
+        return nil
+      end
+      
+      return nil if ret.nil?
+      
+      users = []
+      ret.each do |user|
+        users << user.member_id
+      end
+      
+      return users
+    end
+    
     # Check if a user exists in Google Apps
     # 
     # @param [Hash] user User parameters - Firstname, Lastname, Username etc
