@@ -12,7 +12,7 @@ module UserManager
     # @param [Logger] logger Logger class, optional
     def initialize(config, logger = nil)
       @lh = logger || Logger.new(STDOUT)
-      @lh.progname = self.class
+      @lh.progname = self.class.to_s.split("::").last
     end
     
     # Log Message
